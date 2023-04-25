@@ -3,35 +3,16 @@ from PIL import Image
 imageType = Union[Image.Image, Any]
 
 from typing import List
-
 from .schema import FiltererResponseSchema
 
-MODEL_BASE = "google/vit-base-patch16-224-in21k"
-MODEL_NAME = "./mlmodels/vit-potatoes-plant-health-status/"
 
 from torchvision.transforms import Compose, Normalize, Resize, \
     ToTensor
 import torch
-import torch.nn as nn
-from transformers import ViTConfig, ViTModel
+from . import FineTunedVITModel, vit_config
 
-
-vit_config = ViTConfig()
-
-
-class FineTunedVITModelFilter(nn.Module):
-    def __init__(self, config=vit_config, num_labels=2):
-        super(FineTunedVITModelFilter, self).__init__()
-
-        self.finetunedfiltermodel = ViTModel(vit_config)
-        self.custom_filterer = (
-            nn.Linear(vit_config.hidden_size, num_labels)
-        )
-
-    def forward(self, x):
-        x = self.finetunedfiltermodel(x)['last_hidden_state']
-        output = self.custom_filterer(x[:, 0, :])
-        return output
+MODEL_BASE = "google/vit-base-patch16-224-in21k"
+MODEL_NAME = "./mlmodels/vit-potatoes-plant-health-status/"
 
 
 class ImageFilterer:
@@ -42,17 +23,17 @@ class ImageFilterer:
         # if not Path(MODEL_NAME).exists():
         #     self.classifier.save_pretrained(MODEL_NAME)
         FTMODEL = "/Users/gokul/Documents/GLABS/ML-take-home/ml-server/mlmodels/finetuned_filter_model_1_cpu.pt"
-        self.ftmodel = FineTunedVITModelFilter(vit_config)
+        self.ftmodel = FineTunedVITModel(vit_config)
         self.ftmodel.load_state_dict(torch.load(FTMODEL))
         self.ftmodel.eval()
 
-    def filter(self, image: imageType) -> List[FiltererResponseSchema]:
+    def filter(self, image: imageType) -> FiltererResponseSchema:
         mean = [0.5, 0.5, 0.5]
         std = [0.5, 0.5, 0.5]
         size = 224
         test_val_transforms = Compose(
             [
-                Resize(size),
+                Resize((224,224)),
                 ToTensor(),
                 Normalize(mean=mean, std=std)
             ])

@@ -6,12 +6,12 @@ from fastapi import UploadFile, APIRouter
 from .response import FiltererResponseModel
 from typing import Union
 
-filterer_router = APIRouter(prefix="/filter")
+filter_router = APIRouter(prefix="/filter")
 
 Filterer = ImageFilterer()
 
 
-@filterer_router.post("/", tags=["Image Filterer"])
+@filter_router.post("/", tags=["Image Filtering"])
 async def filter(file: Union[UploadFile, None] = None):
     if not file:
         return FiltererResponseModel(message="No file sent", success=False)

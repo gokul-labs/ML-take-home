@@ -1,8 +1,8 @@
 # ML Take Home - backend
 
 FastAPI Backend for the ML Take Home project.  
-This project is a simple REST API tha exposes a machine leaning service through a POST endpoint.
-The endpoint will allow a client to request a classification for a given image.
+This project is a simple REST API tha exposes a machine leaning service through a POST endpoint. The endpoint will allow
+a client to request a classification for a given image.
 
 The project structure is as follows:
 
@@ -41,7 +41,8 @@ ml-server/
 
 ## Adding new functionalities
 
-To add a new functionality, expose it as an endpoint. To do so, you must:  
+To add a new functionality, expose it as an endpoint. To do so, you must:
+
 * register the endpoint in `app/app.py`
 * create a new service in `app/services`
 * import the service in `app/app.py` and call it in the endpoint definition
@@ -58,10 +59,11 @@ cd ML-take-home
 cd ml-server 
 pipenv install
 pipenv shell
-python3 main.py 
+python3 api_server.py 
 ```
 
 To run the tests
+
 ```shell
 # Running the tests
 cd tests

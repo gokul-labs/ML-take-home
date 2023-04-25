@@ -1,9 +1,9 @@
 import pytest
+
 from fastapi.testclient import TestClient
 from httpx import AsyncClient
 
 from app.app import app
-
 
 @pytest.fixture(scope="module")
 def app_client():

@@ -7,7 +7,7 @@ def test_base(app_client):
 def test_classify_healthy(app_client):
     response = app_client.post(
         "/classify",
-        files={"file": open("images/healthy.jpeg", "rb")},
+        files={"file": open("tests/images/healthy.jpeg", "rb")},
     )
     assert response.status_code == 200
     assert response.json()["message"] == "Successful classification"
@@ -18,7 +18,7 @@ def test_classify_healthy(app_client):
 def test_classify_early_blight(app_client):
     response = app_client.post(
         "/classify",
-        files={"file": open("images/early_blight.jpeg", "rb")},
+        files={"file": open("tests/images/early_blight.jpeg", "rb")},
     )
     assert response.status_code == 200
     assert response.json()["message"] == "Successful classification"
@@ -29,7 +29,7 @@ def test_classify_early_blight(app_client):
 def test_classify_late_blight(app_client):
     response = app_client.post(
         "/classify",
-        files={"file": open("images/late_blight.jpeg", "rb")},
+        files={"file": open("tests/images/late_blight.jpeg", "rb")},
     )
     assert response.status_code == 200
     assert response.json()["message"] == "Successful classification"
