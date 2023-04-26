@@ -2,7 +2,7 @@ from typing import Any, Union
 from PIL import Image
 
 from typing import List
-from . import FineTunedVITModel, vit_config
+from .__init__ import FineTunedVITModel, vit_config
 from .schema import ClassifierResponseSchema
 from torchvision.transforms import Compose, Normalize, Resize, \
     ToTensor
@@ -23,7 +23,8 @@ class ImageClassifier:
         #
         # if not Path(MODEL_NAME).exists():
         #     self.classifier.save_pretrained(MODEL_NAME)
-        FTMODEL = "/Users/gokul/Documents/GLABS/ML-take-home/ml-server/mlmodels/finetuned_model_2_cpu.pt"
+        print
+        FTMODEL = "mlmodels/finetuned_model_2_cpu.pt"
         self.ftmodel = FineTunedVITModel(vit_config)
         self.ftmodel.load_state_dict(torch.load(FTMODEL))
         self.ftmodel.eval()

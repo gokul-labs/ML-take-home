@@ -5,11 +5,10 @@ imageType = Union[Image.Image, Any]
 from typing import List
 from .schema import FiltererResponseSchema
 
-
 from torchvision.transforms import Compose, Normalize, Resize, \
     ToTensor
 import torch
-from . import FineTunedVITModel, vit_config
+from .__init__ import FineTunedVITModel, vit_config
 
 MODEL_BASE = "google/vit-base-patch16-224-in21k"
 MODEL_NAME = "./mlmodels/vit-potatoes-plant-health-status/"
@@ -22,7 +21,7 @@ class ImageFilterer:
         #
         # if not Path(MODEL_NAME).exists():
         #     self.classifier.save_pretrained(MODEL_NAME)
-        FTMODEL = "/Users/gokul/Documents/GLABS/ML-take-home/ml-server/mlmodels/finetuned_filter_model_1_cpu.pt"
+        FTMODEL = "mlmodels/finetuned_filter_model_1_cpu.pt"
         self.ftmodel = FineTunedVITModel(vit_config)
         self.ftmodel.load_state_dict(torch.load(FTMODEL))
         self.ftmodel.eval()
