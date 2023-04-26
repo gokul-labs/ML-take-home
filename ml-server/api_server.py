@@ -1,3 +1,7 @@
+"""
+Entry point into the ml-server application
+"""
+
 import uvicorn
 
 if __name__ == "__main__":

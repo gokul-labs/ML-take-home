@@ -1,10 +1,11 @@
 import io
-from .client import ImageFilterer
+from typing import Union
+
 from PIL import Image
 from fastapi import UploadFile, APIRouter
 
+from .client import ImageFilterer
 from .response import FiltererResponseModel
-from typing import Union
 
 filter_router = APIRouter(prefix="/filter")
 

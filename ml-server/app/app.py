@@ -9,8 +9,10 @@ from .services.filterer.controller import filter_router
 
 def create_app():
     app = FastAPI(title="Potato Leaf Health Status",
-                  description="Uses ML algorithm to classify the health status of a potato leaf image,"
-                              " into one of 3 categories: early blight, late blight and healthy.",
+                  description="Uses ML algorithm to classify the health status"
+                              " of a potato leaf image,"
+                              " into one of 3 categories: early blight, "
+                              "late blight and healthy.",
                   version="1.0",
                   docs_url='/docs',
                   openapi_url='/openapi.json',
@@ -34,7 +36,8 @@ def create_app():
     @app.get("/", tags=["Root"])
     async def read_root():
         return {
-            "message": f"Welcome to the image classifier server!!, servertime {time.time()}"
+            "message": f"Welcome to the image classifier "
+                       f"server!!, servertime {time.time()}"
         }
 
     return app

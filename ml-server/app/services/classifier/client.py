@@ -1,29 +1,32 @@
 from typing import Any, Union
-from PIL import Image
-
 from typing import List
-from .__init__ import FineTunedVITModel, vit_config
-from .schema import ClassifierResponseSchema
-from torchvision.transforms import Compose, Normalize, Resize, \
-    ToTensor
+
+import numpy as np
 import torch
 import torch.nn as nn
-import numpy as np
+from PIL import Image
+from torchvision.transforms import Compose, Normalize, Resize, \
+    ToTensor
 
+from .__init__ import FineTunedVITModel, vit_config
+from .schema import ClassifierResponseSchema
 
 imageType = Union[Image.Image, Any]
 MODEL_BASE = "google/vit-base-patch16-224-in21k"
 MODEL_NAME = "./mlmodels/vit-potatoes-plant-health-status/"
-labels = ["early_blight", "healthy", "late_blight"]
+LABELS = ["Early blight", "Healthy", "Late blight"]
+
 
 class ImageClassifier:
     def __init__(self):
-        # self.model_name = MODEL_NAME if Path(MODEL_NAME).exists() else MODEL_BASE
-        # self.classifier = pipeline("image-classification", model=self.model_name)
+        # self.model_name = MODEL_NAME if Path(MODEL_NAME).exists()\
+        #     else MODEL_BASE
+        # self.classifier = pipeline("image-classification",
+        #                            model=self.model_name)
         #
         # if not Path(MODEL_NAME).exists():
         #     self.classifier.save_pretrained(MODEL_NAME)
-        print
+
         FTMODEL = "mlmodels/finetuned_model_2_cpu.pt"
         self.ftmodel = FineTunedVITModel(vit_config)
         self.ftmodel.load_state_dict(torch.load(FTMODEL))
@@ -32,13 +35,14 @@ class ImageClassifier:
     def map_prediction_to_label(self, prediction):
         probs = nn.functional.softmax(prediction, dim=-1)
         probs = np.ndarray.tolist(probs.cpu().detach().numpy())
-        ordered_probs = [i[0] for i in sorted(enumerate(probs[0]), key=lambda x: x[1])]
+        ordered_probs = [i[0] for i in sorted(enumerate(probs[0]),
+                                              key=lambda x: x[1])]
         result = []
         for idx in range(2, -1, -1):
             temp = {"label": "",
                     "score": ""}
             marker = ordered_probs.index(idx)
-            temp["label"] = labels[marker]
+            temp["label"] = LABELS[marker]
             temp["score"] = probs[0][marker]
             result.append(temp)
         return result

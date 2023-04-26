@@ -8,7 +8,8 @@ class FineTunedVITModel(nn.Module):
     def __init__(self, config=vit_config, num_labels=2):
         super(FineTunedVITModel, self).__init__()
 
-        self.finetunedmodel = ViTModel(vit_config, add_pooling_layer=False)
+        self.finetunedmodel = ViTModel(vit_config,
+                                       add_pooling_layer=False)
         self.custom_filter = (
             nn.Linear(vit_config.hidden_size, num_labels)
         )

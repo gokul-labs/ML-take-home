@@ -1,38 +1,40 @@
 from typing import Any, Union
+
+import torch
 from PIL import Image
-imageType = Union[Image.Image, Any]
-
-from typing import List
-from .schema import FiltererResponseSchema
-
 from torchvision.transforms import Compose, Normalize, Resize, \
     ToTensor
-import torch
+
 from .__init__ import FineTunedVITModel, vit_config
+from .schema import FiltererResponseSchema
 
 MODEL_BASE = "google/vit-base-patch16-224-in21k"
 MODEL_NAME = "./mlmodels/vit-potatoes-plant-health-status/"
+IMAGE_TYPE = Union[Image.Image, Any]
 
 
 class ImageFilterer:
     def __init__(self):
-        # self.model_name = MODEL_NAME if Path(MODEL_NAME).exists() else MODEL_BASE
-        # self.classifier = pipeline("image-classification", model=self.model_name)
+        # self.model_name = MODEL_NAME if Path(MODEL_NAME).exists()\
+        #     else MODEL_BASE
+        # self.classifier = pipeline("image-classification",
+        #                            model=self.model_name)
         #
         # if not Path(MODEL_NAME).exists():
         #     self.classifier.save_pretrained(MODEL_NAME)
+
         FTMODEL = "mlmodels/finetuned_filter_model_1_cpu.pt"
         self.ftmodel = FineTunedVITModel(vit_config)
         self.ftmodel.load_state_dict(torch.load(FTMODEL))
         self.ftmodel.eval()
 
-    def filter(self, image: imageType) -> FiltererResponseSchema:
+    def filter(self, image: IMAGE_TYPE) -> FiltererResponseSchema:
         mean = [0.5, 0.5, 0.5]
         std = [0.5, 0.5, 0.5]
         size = 224
         test_val_transforms = Compose(
             [
-                Resize((224,224)),
+                Resize((size, size)),
                 ToTensor(),
                 Normalize(mean=mean, std=std)
             ])

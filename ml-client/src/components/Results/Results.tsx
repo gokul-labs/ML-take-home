@@ -10,16 +10,18 @@ const Results = (props: ImageResultProps) => {
   return (
     <div className="results-container">
       <h2 className="text-4xl mt-2 mb-5 text-slate-600 ">Results</h2>
-
+      
+      {props.image.map((image: any, rindex: number) => (
       <div className="results-content">
-        <img
-          className="result-image"
-          src={URL.createObjectURL(props.image)}
-          alt="result image"
-        />
 
+        <img
+          key={rindex}
+          className="result-image"
+          src={URL.createObjectURL(image)}
+        />
+        
         <div className="results-score">
-          {props.results.map((result: any, index: number) => (
+        {props.results[rindex].map((result: any, index: number) => (
             <div key={index} className="results-item">
               <div className="flex justify-between mb-1">
                 <span className="text-base font-medium text-blue-700 ">
@@ -40,6 +42,7 @@ const Results = (props: ImageResultProps) => {
           ))}
         </div>
       </div>
+    ))}
     </div>
   );
 };
