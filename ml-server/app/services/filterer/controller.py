@@ -13,7 +13,12 @@ Filterer = ImageFilterer()
 
 
 @filter_router.post("/", tags=["Image Filtering"])
-async def filter(file: Union[UploadFile, None] = None):
+async def filter(file: Union[UploadFile, None] = None) -> FiltererResponseModel:
+    """
+    Endpoint entry for filtering
+    :param file: Images
+    :return: Filtering results
+    """
     if not file:
         return FiltererResponseModel(message="No file sent", success=False)
     content = await file.read()

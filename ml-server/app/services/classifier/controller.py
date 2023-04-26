@@ -11,7 +11,12 @@ Classifier = ImageClassifier()
 
 
 @classify_router.post("/", tags=["Image Classification"])
-async def classify(files: list[UploadFile] = None):
+async def classify(files: list[UploadFile] = None) -> ClassifyResponseModel:
+    """
+    Endpoint entry for classification
+    :param files: Images
+    :return: Classification results
+    """
     if not files:
         return ClassifyResponseModel(message="No file sent", success=False)
     results = []

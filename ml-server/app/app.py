@@ -8,6 +8,10 @@ from .services.filterer.controller import filter_router
 
 
 def create_app():
+    """
+    Create the REST application from all routers
+    :return: app object
+    """
     app = FastAPI(title="Potato Leaf Health Status",
                   description="Uses ML algorithm to classify the health status"
                               " of a potato leaf image,"
@@ -35,6 +39,10 @@ def create_app():
 
     @app.get("/", tags=["Root"])
     async def read_root():
+        """
+        Root endpoint for ml application server
+        :return:
+        """
         return {
             "message": f"Welcome to the image classifier "
                        f"server!!, servertime {time.time()}"

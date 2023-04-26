@@ -1,11 +1,14 @@
 import torch.nn as nn
+from torch import Tensor
 from transformers import ViTConfig, ViTModel
-
 vit_config = ViTConfig()
 
 
 class FineTunedVITModel(nn.Module):
-    def __init__(self, config=vit_config, num_labels=2):
+    """
+    Fine tuned ViT Model for filtering images
+    """
+    def __init__(self, config: ViTConfig=vit_config, num_labels: int = 2):
         super(FineTunedVITModel, self).__init__()
 
         self.finetunedmodel = ViTModel(vit_config,
@@ -14,7 +17,12 @@ class FineTunedVITModel(nn.Module):
             nn.Linear(vit_config.hidden_size, num_labels)
         )
 
-    def forward(self, x):
+    def forward(self, x: Tensor):
+        """
+        Inference against the filter model
+        :param x: image as tensor
+        :return: Filter status
+        """
         x = self.finetunedmodel(x)['last_hidden_state']
         output = self.custom_filter(x[:, 0, :])
         return output

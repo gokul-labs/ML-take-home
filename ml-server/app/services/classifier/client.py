@@ -1,6 +1,5 @@
 from typing import Any, Union
 from typing import List
-
 import numpy as np
 import torch
 import torch.nn as nn
@@ -18,6 +17,10 @@ LABELS = ["Early blight", "Healthy", "Late blight"]
 
 
 class ImageClassifier:
+    """
+    Class implementation for classifying images uploaded to the service
+    into 3 health status
+    """
     def __init__(self):
         # self.model_name = MODEL_NAME if Path(MODEL_NAME).exists()\
         #     else MODEL_BASE
@@ -26,13 +29,17 @@ class ImageClassifier:
         #
         # if not Path(MODEL_NAME).exists():
         #     self.classifier.save_pretrained(MODEL_NAME)
-
         FTMODEL = "mlmodels/finetuned_model_2_cpu.pt"
         self.ftmodel = FineTunedVITModel(vit_config)
         self.ftmodel.load_state_dict(torch.load(FTMODEL))
         self.ftmodel.eval()
 
     def map_prediction_to_label(self, prediction):
+        """
+        Map the model prediction to string labels
+        :param prediction: prediction with probabilities
+        :return: prediction with labels and scores
+        """
         probs = nn.functional.softmax(prediction, dim=-1)
         probs = np.ndarray.tolist(probs.cpu().detach().numpy())
         ordered_probs = [i[0] for i in sorted(enumerate(probs[0]),
@@ -48,6 +55,11 @@ class ImageClassifier:
         return result
 
     def classify(self, image: imageType) -> List[ClassifierResponseSchema]:
+        """
+        Function to check the image against the classification model
+        :param image: Input image
+        :return: Classification status
+        """
         mean = [0.5, 0.5, 0.5]
         std = [0.5, 0.5, 0.5]
         size = 224

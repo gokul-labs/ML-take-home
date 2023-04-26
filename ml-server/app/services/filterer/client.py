@@ -1,5 +1,4 @@
 from typing import Any, Union
-
 import torch
 from PIL import Image
 from torchvision.transforms import Compose, Normalize, Resize, \
@@ -14,6 +13,11 @@ IMAGE_TYPE = Union[Image.Image, Any]
 
 
 class ImageFilterer:
+    """
+    Class implementation for filtering images uploaded to the service.
+    The intent is to filter out images that are not relevant
+    i.e) not a leaf image
+    """
     def __init__(self):
         # self.model_name = MODEL_NAME if Path(MODEL_NAME).exists()\
         #     else MODEL_BASE
@@ -29,6 +33,11 @@ class ImageFilterer:
         self.ftmodel.eval()
 
     def filter(self, image: IMAGE_TYPE) -> FiltererResponseSchema:
+        """
+        Function to check the image against the filtering model
+        :param image: Input image
+        :return: Filter status
+        """
         mean = [0.5, 0.5, 0.5]
         std = [0.5, 0.5, 0.5]
         size = 224
