@@ -1,0 +1,2 @@
+Total failed 2
+Failed images [{'filename': 'Early_Blight_129.jpg', 'response': [{'label': 'Early blight', 'score': 0.4181259274482727}, {'label': 'Late blight', 'score': 0.07897239178419113}, {'label': 'Healthy', 'score': 0.5029017329216003}]}, {'filename': 'Late_Blight_3.jpg', 'response': [{'label': 'Healthy', 'score': 0.001891850377433002}, {'label': 'Early blight', 'score': 0.9463697075843811}, {'label': 'Late blight', 'score': 0.0517384335398674}]}]

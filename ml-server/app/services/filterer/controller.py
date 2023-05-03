@@ -1,5 +1,5 @@
 import io
-from typing import Union
+from typing import Union, Optional
 
 from PIL import Image
 from fastapi import UploadFile, APIRouter
@@ -13,7 +13,7 @@ Filterer = ImageFilterer()
 
 
 @filter_router.post("/", tags=["Image Filtering"])
-async def filter(file: Union[UploadFile, None] = None) -> FiltererResponseModel:
+async def filter(file: Union[UploadFile, None] = None):
     """
     Endpoint entry for filtering
     :param file: Images

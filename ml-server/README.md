@@ -57,8 +57,7 @@ cd ML-take-home
 
 # Init the server
 cd ml-server 
-pipenv install
-pipenv shell
+pip install -r requirements.txt
 python3 api_server.py 
 ```
 
@@ -66,7 +65,6 @@ To run the tests
 
 ```shell
 # Running the tests
-cd tests
 pytest
 ```
 

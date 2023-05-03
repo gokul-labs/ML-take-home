@@ -10,7 +10,7 @@ class FineTunedVITModel(nn.Module):
     Fine tuned ViT Model for identifying leaf
      health status
     """
-    def __init__(self, config: ViTConfig=vit_config, num_labels: int = 2):
+    def __init__(self, config: ViTConfig=vit_config, num_labels: int = 3):
         super(FineTunedVITModel, self).__init__()
 
         self.finetunedmodel = ViTModel(vit_config)

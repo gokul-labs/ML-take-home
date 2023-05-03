@@ -2,6 +2,7 @@ import io
 from .client import ImageClassifier
 from PIL import Image
 from fastapi import UploadFile, APIRouter
+from typing import List, Optional
 
 from .response import ClassifyResponseModel
 
@@ -11,7 +12,7 @@ Classifier = ImageClassifier()
 
 
 @classify_router.post("/", tags=["Image Classification"])
-async def classify(files: list[UploadFile] = None) -> ClassifyResponseModel:
+async def classify(files: list[UploadFile] = None):
     """
     Endpoint entry for classification
     :param files: Images
