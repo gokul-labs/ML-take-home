@@ -2,7 +2,7 @@ import io
 from .client import ImageClassifier
 from PIL import Image
 from fastapi import UploadFile, APIRouter
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from .response import ClassifyResponseModel
 
